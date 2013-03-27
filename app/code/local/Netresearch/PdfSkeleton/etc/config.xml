@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Netresearch_PdfSkeleton>
+            <version>0.1.0</version>
+        </Netresearch_PdfSkeleton>
+    </modules>
+    <global>
+        <models>
+            <pdfskeleton>
+                <class>Netresearch_PdfSkeleton_Model</class>
+                <resourceModel>pdfskeleton_resource</resourceModel>
+            </pdfskeleton>
+            <pdfskeleton_resource>
+                <class>Netresearch_PdfSkeleton_Model_Resource</class>
+            </pdfskeleton_resource>
+        </models>
+        <pdf>
+            <firegento_engines>
+                <pdfskeleton_default>
+                    <class>pdfskeleton/engine_invoice_default</class>
+                    <label>Netresearch PDF Skeleton</label>
+                </pdfskeleton_default>
+            </firegento_engines>
+        </pdf>
+    </global>
+</config>

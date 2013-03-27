@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Netresearch_PdfSkeleton>
+            <codePool>local</codePool>
+            <active>true</active>
+            <depends>
+                <FireGento_Pdf/>
+            </depends>
+        </Netresearch_PdfSkeleton>
+    </modules>
+</config>
