@@ -16,12 +16,12 @@
             </pdfskeleton_resource>
         </models>
         <pdf>
-            <firegento_engines>
+            <firegento_invoice_engines>
                 <pdfskeleton_default>
                     <class>pdfskeleton/engine_invoice_default</class>
                     <label>Netresearch PDF Skeleton</label>
                 </pdfskeleton_default>
-            </firegento_engines>
+            </firegento_invoice_engines>
         </pdf>
     </global>
 </config>
