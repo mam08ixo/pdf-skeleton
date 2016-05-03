@@ -25,7 +25,7 @@
  */
 
 /**
- * Netresearch_PdfSkeleton_Model_Engine_Invoice_Default
+ * Netresearch_PdfSkeleton_Model_Order_Pdf_Total_Weight
  *
  * @category Netresearch
  * @package  Netresearch_PdfSkeleton
@@ -33,36 +33,26 @@
  * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link     http://www.netresearch.de/
  */
-class Netresearch_PdfSkeleton_Model_Engine_Invoice_Default
-    extends FireGento_Pdf_Model_Engine_Invoice_Default
+class Netresearch_PdfSkeleton_Model_Order_Pdf_Total_Weight
+    extends Mage_Sales_Model_Order_Pdf_Total_Default
 {
     /**
-     * Set custom renderer for order items.
-     *
-     * @param string $type
+     * Calculate the order items' weight and return totals information for display in PDF.
+     * @return mixed[]
      */
-    protected function _initRenderer($type)
+    public function getTotalsForDisplay()
     {
-        parent::_initRenderer($type);
+        /** @var Mage_Sales_Model_Order $order */
+        $order = $this->getOrder();
+        $totalWeight = array_reduce($order->getAllItems(), function ($weight, Mage_Sales_Model_Order_Item $item) {
+            $weight += $item->getWeight();
+            return $weight;
+        });
 
-        $this->_renderers['default'] = array(
-            'model'    => 'pdfskeleton/items_default',
-            'renderer' => null
-        );
-    }
-
-    /**
-     * Prepend order items' total weight.
-     *
-     * @param Mage_Sales_Model_Abstract $source
-     * @return Mage_Sales_Model_Order_Pdf_Total_Default[]
-     */
-    protected function _getTotalsList($source)
-    {
-        $totals = parent::_getTotalsList($source);
-
-        array_unshift($totals, Mage::getModel('pdfskeleton/order_pdf_total_weight'));
-
-        return $totals;
+        return [[
+            'amount'    => $totalWeight,
+            'label'     => sprintf('%s:', $this->_getSalesHelper()->__("Total Weight")),
+            'font_size' => $this->getFontSize() ? $this->getFontSize() : 7,
+        ]];
     }
 }

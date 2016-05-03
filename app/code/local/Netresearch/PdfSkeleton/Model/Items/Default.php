@@ -25,7 +25,7 @@
  */
 
 /**
- * Netresearch_PdfSkeleton_Model_Engine_Invoice_Default
+ * Netresearch_PdfSkeleton_Model_Items_Default
  *
  * @category Netresearch
  * @package  Netresearch_PdfSkeleton
@@ -33,36 +33,25 @@
  * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link     http://www.netresearch.de/
  */
-class Netresearch_PdfSkeleton_Model_Engine_Invoice_Default
-    extends FireGento_Pdf_Model_Engine_Invoice_Default
+class Netresearch_PdfSkeleton_Model_Items_Default
+    extends FireGento_Pdf_Model_Items_Default
 {
     /**
-     * Set custom renderer for order items.
+     * Add delivery time as option per line item.
      *
-     * @param string $type
+     * @return mixed[]
      */
-    protected function _initRenderer($type)
+    public function getItemOptions()
     {
-        parent::_initRenderer($type);
+        /** @var Mage_Sales_Model_Order_Item $orderItem */
+        $orderItem = $this->getItem()->getOrderItem();
 
-        $this->_renderers['default'] = array(
-            'model'    => 'pdfskeleton/items_default',
-            'renderer' => null
-        );
-    }
+        $itemOptions = parent::getItemOptions();
+        $itemOptions = array_merge($itemOptions, [[
+            'label' => $orderItem->getProduct()->getResource()->getAttribute('delivery_time')->getFrontend()->getLabel(),
+            'value' => $orderItem->getProduct()->getData('delivery_time'),
+        ]]);
 
-    /**
-     * Prepend order items' total weight.
-     *
-     * @param Mage_Sales_Model_Abstract $source
-     * @return Mage_Sales_Model_Order_Pdf_Total_Default[]
-     */
-    protected function _getTotalsList($source)
-    {
-        $totals = parent::_getTotalsList($source);
-
-        array_unshift($totals, Mage::getModel('pdfskeleton/order_pdf_total_weight'));
-
-        return $totals;
+        return $itemOptions;
     }
 }
